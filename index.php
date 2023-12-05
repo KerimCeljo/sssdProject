@@ -37,6 +37,18 @@ Flight::route('POST /register', function(){
         die;
       }
 
+
+    // Validate password against Pwned Passwords API
+    $isPasswordBreached = validatePasswordAgainstPwnedPasswords($password); 
+    
+    if ($isPasswordBreached) {
+        // Password found in breaches
+        Flight::json([
+            'status' => 'error',
+            'message' => 'This password has been exposed in previous data breaches.'
+        ]);
+    } else {
+
     // Use of database connection from dao.php
     $dao = new Dao();
 
@@ -49,7 +61,30 @@ Flight::route('POST /register', function(){
       'status' => 'success',
       'message' => 'User registered successfully'
     ));
+    }
 });
+
+function validatePasswordAgainstPwnedPasswords($password){
+    // Hash the password using SHA-1
+    $hashedPassword = strtoupper(sha1($password)); // Convert to uppercase as per API requirements
+
+    // Take the first 5 characters of the hash
+    $partialHash = substr($hashedPassword, 0, 5);
+
+    // Make a GET request to the Pwned Passwords API
+    $apiUrl = "https://api.pwnedpasswords.com/range/" . $partialHash;
+    $response = @file_get_contents($apiUrl); // Use @ to suppress warnings/errors
+
+    if ($response !== false) {
+        // Check if the remaining part of the hashed password (suffix) exists in the response
+        $suffix = substr($hashedPassword, 5);
+        return strpos($response, $suffix) !== false;
+    } else {
+        // Handle API request failure or error
+        // For example, you can log the error or handle it as needed
+        return false; // Consider treating as a safe password if API request fails
+    }
+}
 
 Flight::route('POST /login', function(){
 
