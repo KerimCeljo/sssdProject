@@ -81,8 +81,7 @@ function validatePasswordAgainstPwnedPasswords($password){
         return strpos($response, $suffix) !== false;
     } else {
         // Handle API request failure or error
-        // For example, you can log the error or handle it as needed
-        return false; // Consider treating as a safe password if API request fails
+        return false;
     }
 }
 
