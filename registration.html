@@ -11,27 +11,28 @@
   <div class="container">
     <div class="title">Registration</div>
     <div class="content">
-      <form action="#">
+      <form action="http://localhost/sssdProject/register" method="post">
+      <!-- Input fields for registration -->
         <div class="user-details">
           <div class="input-box">
             <span class="details">Full Name</span>
-            <input type="text" placeholder="Enter your name" required>
+            <input type="text" id="fullname" name="fullname" placeholder="Enter your name" required>
           </div>
           <div class="input-box">
             <span class="details">Username</span>
-            <input type="text" placeholder="Enter your username" required>
+            <input type="text" id="username" name="username" placeholder="Enter your username" required>
           </div>
           <div class="input-box">
             <span class="details">Email</span>
-            <input type="text" placeholder="Enter your email" required>
+            <input type="text" id="email" name="email" placeholder="Enter your email" required>
           </div>
           <div class="input-box">
             <span class="details">Phone Number</span>
-            <input type="text" placeholder="Enter your number" required>
+            <input type="text" id="phone" name="phone" placeholder="Enter your number" required>
           </div>
           <div class="input-box">
             <span class="details">Password</span>
-            <input type="text" placeholder="Enter your password" required>
+            <input type="password" id="password" name="password" placeholder="Enter your password" required>
           </div>
         </div>
 
